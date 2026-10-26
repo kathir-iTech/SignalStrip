@@ -1,0 +1,30 @@
+import {it,expect} from 'vitest';
+import {Service} from '../electron/service';
+import {defaultSettings,type Storage} from '../electron/storage';
+
+it('routes chat text through current-word matching and explains rejected replies without recording the word',async()=>{
+  const saved:string[]=[];
+  const storage={record:async(s:unknown)=>{saved.push(JSON.stringify(s));}} as unknown as Storage;
+  const service=new Service(storage);
+  service.secrets={installKey:'test-install-key'};
+  service.settings={...defaultSettings};service.state.twitch='ready';
+  let counter=0;
+  const chat=(text:string)=>service.chat.onEvent('channel.chat.message',{message_id:`message-${++counter}`,chatter_user_id:'test-viewer',chatter_user_login:'test-viewer',message:{text}},Date.now());
+  chat('!signal');expect(service.state.incident).toBeNull();
+  expect(service.view.chatFeedback?.detail).toContain('!signal audio');
+  chat('!signal audio');expect(service.state.incident?.reports).toHaveLength(1);
+  await service.command({type:'start-check'});
+  const check=service.state.incident!.check!,word=service.view.privateWord!;
+  chat(`!heard ${check.id==='AAAA'?'BBBB':'AAAA'} ${word}`);
+  expect(service.view.chatFeedback?.detail).toContain('different code');
+  chat(`!heard ${check.id} wrongword`);
+  expect(service.view.chatFeedback?.detail).toContain('did not match');
+  expect(service.state.incident!.check!.responses).toHaveLength(0);
+  chat(`!heard ${check.id} ${word}`);
+  expect(service.state.incident!.check!.responses).toHaveLength(1);
+  expect(saved.join('')).not.toContain(word);
+  expect(saved.join('')).not.toContain('test-viewer');
+  await service.command({type:'cancel-check'});
+  chat(`!heard ${check.id} ${word}`);
+  expect(service.view.chatFeedback?.detail).toContain('after the check ended');
+});

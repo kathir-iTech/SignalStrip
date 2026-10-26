@@ -1,0 +1,17 @@
+{
+  "passed": true,
+  "utc": "2026-10-26T12:40:40.233Z",
+  "kind": "local rehearsal fixtures",
+  "checks": [
+    "renderer isolation",
+    "reviewed correction",
+    "fresh challenge",
+    "old reply rejected",
+    "public payload allowlist",
+    "overlay rejects writes and foreign origin",
+    "explicit closure",
+    "history",
+    "compact window"
+  ],
+  "errors": []
+}

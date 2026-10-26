@@ -1,0 +1,62 @@
+{
+  "name": "signalstrip",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "A creator-controlled microphone recovery strip for OBS and Twitch",
+  "author": "SignalStrip contributors",
+  "license": "MIT",
+  "main": "dist-electron/main.cjs",
+  "scripts": {
+    "dev": "npm run build && electron .",
+    "build": "tsc --noEmit && vite build && node scripts/build.mjs",
+    "test": "vitest run",
+    "test:ui": "node scripts/smoke.mjs",
+    "check": "npm run test && npm run build",
+    "package": "npm run build && electron-builder --win --x64 --dir && powershell -NoProfile -File scripts/Package-Zip.ps1",
+    "start": "electron ."
+  },
+  "dependencies": {
+    "obs-websocket-js": "5.0.8",
+    "react": "19.3.0",
+    "react-dom": "19.3.0"
+  },
+  "devDependencies": {
+    "@types/node": "26.6.5",
+    "@types/react": "19.3.0",
+    "@types/react-dom": "19.3.0",
+    "electron": "45.0.0",
+    "electron-builder": "26.18.0",
+    "esbuild": "0.28.2",
+    "playwright": "1.64.0",
+    "typescript": "7.0.2",
+    "vite": "8.3.4",
+    "vitest": "5.0.4"
+  },
+  "build": {
+    "appId": "dev.signalstrip.desktop",
+    "productName": "SignalStrip",
+    "directories": {
+      "output": "release"
+    },
+    "files": [
+      "dist/**",
+      "dist-electron/**",
+      "assets/**",
+      "package.json",
+      "LICENSE"
+    ],
+    "asar": true,
+    "win": {
+      "target": "zip",
+      "icon": "assets/icon.ico",
+      "artifactName": "SignalStrip-${version}-Windows-x64.zip",
+      "signExecutable": false
+    }
+  },
+  "allowScripts": {
+    "electron@45.0.0": true,
+    "electron-winstaller@5.4.0": true,
+    "esbuild@0.28.2": true
+  }
+}

@@ -16,6 +16,7 @@ test-results/
 !.env.example
 .secrets/
 local/
+SignalStripData/
 *.dpapi.xml
 *.credentials.json
 

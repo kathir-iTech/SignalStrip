@@ -1,0 +1,18 @@
+{
+  "passed": true,
+  "utc": "2026-10-26T12:57:20.501Z",
+  "kind": "packaged executable with local rehearsal fixtures",
+  "packagedAsar": true,
+  "softwareRenderingForCapture": true,
+  "checks": [
+    "packaged renderer startup",
+    "no renderer Node",
+    "reviewed correction",
+    "current check",
+    "public card endpoint",
+    "stable active code",
+    "matching fixture reply",
+    "explicit closure and history"
+  ],
+  "errors": []
+}
