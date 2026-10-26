@@ -1,0 +1,32 @@
+# Dependencies and generated application output
+node_modules/
+dist/
+dist-electron/
+out/
+release/
+coverage/
+playwright-report/
+test-results/
+*.tsbuildinfo
+*.log
+
+# Local credentials and machine-specific configuration
+.env
+.env.*
+!.env.example
+.secrets/
+local/
+*.dpapi.xml
+*.credentials.json
+
+# Private preparation/research; do not publish
+SETUP_STATUS.md
+docs/private/
+research/
+*RESEARCH*.zip
+
+# OS/editor state
+.DS_Store
+Thumbs.db
+Desktop.ini
+.idea/
