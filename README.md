@@ -13,7 +13,7 @@ SignalStrip connects the recovery steps in one private workspace. A viewer sends
 ![Creator workspace with labelled rehearsal soundcheck](docs/screenshots/03-rehearsal-soundcheck.png)
 <p align="center"><sub>Screenshot: local rehearsal fixtures. This image is not evidence of an independent listener.</sub></p>
 
-[![Watch the 1:41 demo](docs/screenshots/demo-video-poster.png)](https://github.com/kathir-iTech/SignalStrip/releases/download/v0.1.0-demo/SignalStrip-demo.mp4)
+[![Watch the 1:42 demo on YouTube](docs/screenshots/demo-video-poster.png)](https://www.youtube.com/watch?v=uZQPvFm90pU)
 <p align="center"><sub>Real offline-channel Twitch/OBS capture, labelled rehearsal replies, synthetic narration and actual Codex build excerpts. <a href="https://github.com/kathir-iTech/SignalStrip/releases/tag/v0.1.0-demo">Video, captions and source release</a>.</sub></p>
 
 ## The interaction
@@ -100,4 +100,4 @@ npm run package    # Windows ZIP; subject to host application policy
 
 Windows-backed safeStorage protects credentials. Private words and audio are not recorded. Closed history defaults to seven-day retention; an open incident remains until closed or cleared. Private local data and generated builds are excluded from Git.
 
-MIT licensed. Created for the Codex x TwitchCon Hackathon. The linked release contains the demo film, captions and source; the tested review path remains the source rehearsal. A public YouTube URL will be added after that upload is completed.
+MIT licensed. Created for the Codex x TwitchCon Hackathon. The linked release contains the demo film, captions and source; the tested review path remains the source rehearsal. The [public YouTube demo](https://www.youtube.com/watch?v=uZQPvFm90pU) is available; response matching in the film uses labelled rehearsal.
