@@ -1,6 +1,6 @@
-# Verification record — 26 October 2026
+# Verification record — updated 28 October 2026
 
-Submission review, 28 October: all 34 tests, TypeScript checking and production build passed again. The README was rendered with GitHub's Markdown API and checked locally at desktop and phone widths; both images loaded and neither viewport overflowed. A real screen capture of the app's labelled local rehearsal was produced for production planning. No new real Twitch interaction, audience playback, or final standalone launch is claimed by that capture.
+Submission review, 28 October: all 34 tests, TypeScript checking and production build passed again. The README was rendered with GitHub's Markdown API and checked locally at desktop and phone widths; both images loaded and neither viewport overflowed. A fresh actual integration capture passed at 16:35:03 UTC on 28 October: the owner-account report reached the offline channel, opened an incident, and the selected OBS test microphone was explicitly unmuted and read back. A fresh private check had zero listener responses; no broadcast was started. The microphone was restored to muted after capture. Separate labelled rehearsal footage demonstrates matching. The 1:41.5 film has synthetic narration, timed captions and genuine reformatted Codex excerpts. No audience playback or final standalone launch is claimed.
 
 Story: a real Twitch audio report opens a private incident, the creator reviews a selected-microphone correction, OBS returns its current value, and a separate fresh-word chat reply can support an audience-side outcome.
 
