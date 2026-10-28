@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="440" viewBox="0 0 1200 440" role="img" aria-label="SignalStrip: turn we cannot hear you into a clear next step">
+<rect width="1200" height="440" rx="28" fill="#101918"/><circle cx="1110" cy="50" r="230" fill="#1c3028"/>
+<path d="M850 55v330M920 55v330M990 55v330M1060 55v330M1130 55v330" stroke="#2c4337"/>
+<rect x="60" y="54" width="66" height="66" rx="18" fill="#c6ef8a"/><text x="76" y="101" fill="#101918" font-family="Segoe UI,Arial" font-size="43" font-weight="700">S</text>
+<text x="148" y="101" fill="#eef0e8" font-family="Segoe UI,Arial" font-size="48" font-weight="700">SignalStrip</text>
+<text x="64" y="190" fill="#eef0e8" font-family="Segoe UI,Arial" font-size="44" font-weight="600">“We can't hear you.”</text>
+<text x="64" y="249" fill="#c6ef8a" font-family="Segoe UI,Arial" font-size="44" font-weight="600">Give the creator a clear next step.</text>
+<g font-family="Segoe UI,Arial" font-size="20"><rect x="64" y="312" width="290" height="64" rx="14" fill="#23332a"/><text x="88" y="351" fill="#eef0e8">01  Twitch report</text><path d="M370 344h40m-10-8 10 8-10 8" stroke="#83d8c4" fill="none" stroke-width="2"/><rect x="430" y="312" width="300" height="64" rx="14" fill="#23332a"/><text x="454" y="351" fill="#eef0e8">02  Reviewed correction</text><path d="M746 344h40m-10-8 10 8-10 8" stroke="#83d8c4" fill="none" stroke-width="2"/><rect x="806" y="312" width="325" height="64" rx="14" fill="#23332a"/><text x="830" y="351" fill="#eef0e8">03  Fresh soundcheck</text></g></svg>

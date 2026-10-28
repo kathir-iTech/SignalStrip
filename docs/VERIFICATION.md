@@ -1,5 +1,7 @@
 # Verification record — 26 October 2026
 
+Submission review, 28 October: all 34 tests, TypeScript checking and production build passed again. The README was rendered with GitHub's Markdown API and checked locally at desktop and phone widths; both images loaded and neither viewport overflowed. A real screen capture of the app's labelled local rehearsal was produced for production planning. No new real Twitch interaction, audience playback, or final standalone launch is claimed by that capture.
+
 Story: a real Twitch audio report opens a private incident, the creator reviews a selected-microphone correction, OBS returns its current value, and a separate fresh-word chat reply can support an audience-side outcome.
 
 ## Completed engineering checks

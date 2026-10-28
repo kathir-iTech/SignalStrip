@@ -1,64 +1,100 @@
-# SignalStrip
+<p align="center"><img src="assets/readme-cover.svg" alt="SignalStrip — Give the creator a clear next step" width="100%"></p>
 
-**A viewer report. A reviewed microphone correction. A fresh soundcheck.**
+<p align="center"><strong>A Twitch audio report. A correction you review. A fresh soundcheck.</strong><br>Windows desktop companion · OBS + Twitch EventSub · Built with OpenAI Codex</p>
 
-SignalStrip is a Windows companion for OBS and Twitch. When a viewer types `!signal audio`, it opens an incident, inspects one selected microphone, and lets the creator review an explicit correction. A fresh private spoken word and public check code separate current replies from stale “sounds good” messages.
+<p align="center"><a href="#try-it-in-two-minutes">Try the demo</a> · <a href="docs/JUDGE_GUIDE.md">Judge guide</a> · <a href="docs/ARCHITECTURE.md">Architecture</a> · <a href="docs/VERIFICATION.md">Evidence</a> · <a href="docs/SETUP.md">Setup</a></p>
 
-![SignalStrip creator workspace](docs/screenshots/01-workspace.png)
+## An audio complaint needs a next step
 
-No paid inference, hosted backend, viewer installation, stream key, or bot posting is required. This is a local desktop app.
+“We can’t hear you” tells a creator something is wrong. It doesn’t identify the selected microphone’s state, and an old “sounds good” can refer to an earlier moment.
 
-## Run
+SignalStrip connects the recovery steps in one private workspace. A viewer sends `!signal audio`. The creator inspects one selected OBS microphone, reviews an explicit unmute, and sees its value read back. A fresh check code and private spoken word give subsequent replies a specific context.
 
-Extract the Windows x64 ZIP into a writable folder, then run **SignalStrip.exe**. Keep its supporting files together. The portable app saves private data in **SignalStripData** beside the executable; exclude that folder when sharing the app. This early release is unsigned; Windows may show a reputation warning. Verify its supplied SHA-256 or inspect/build the source. Running SignalStrip requires no administrator rights. An optional OBS firewall rule is a separate administrator operation.
+![Creator workspace with labelled rehearsal soundcheck](docs/screenshots/03-rehearsal-soundcheck.png)
+<p align="center"><sub>Screenshot: local rehearsal fixtures. This image is not evidence of an independent listener.</sub></p>
 
-Source build on Windows with Node **24.18.1**, npm **11.16.0**:
+## The interaction
+
+| Twitch community | Creator | SignalStrip |
+|---|---|---|
+| Reports with `!signal audio` | Inspects the selected mic | Opens one incident and reads current OBS state |
+| Waits for the creator | Reviews the exact before/after change | Rechecks, sends an explicit Set, then reads back |
+| Replies `!heard CODE word` | Says the private word through the mic | Matches only the current code and word |
+| Can report continuing trouble | Chooses the outcome | Keeps current replies and contrary reports visible |
+
+Every correction needs creator approval. Public replies describe responding accounts; they do not establish every viewer’s experience. The app does not transcribe speech.
+
+## Try it in two minutes
+
+**No Twitch account or OBS connection is needed for the labelled rehearsal.** Use Windows x64 with Node 24.18.1 / npm 11.16.0:
 
 ```powershell
 npm ci
-npm run check
-npm start
+npm run build
+powershell -NoProfile -File scripts/Judge-Demo.ps1
 ```
 
-The first Electron launch may download its pinned runtime from the official Electron distribution. The lockfile and a narrowly pinned npm install-script allowlist are included.
+1. Select **Local rehearsal** at the top.
+2. Click **Viewer reports audio** in the rehearsal controls.
+3. Choose **Review unmute → Unmute selected mic**. Observe **Local value read back**.
+4. Choose **Ask for a soundcheck**, then **Return current word** in the rehearsal controls.
+5. Close **Current word returned** and open **History**.
+
+These are simulated inputs through the application workflow. For real Twitch/OBS use, follow [the connection guide](docs/SETUP.md). The app requests only `user:read:chat`; no stream key, client secret, paid inference, or viewer installation is required.
+
+**Windows distribution status:** the portable ZIP was built, but Windows Application Control blocked the final standalone executable on the development PC. Use the source path above for review. An earlier package passed a rehearsal; final standalone launch is not claimed verified. Keep security protections enabled.
+
+## Built for uncertain moments
+
+- Reports never invoke microphone setters.
+- Unknown results require inspection; the setter is not blindly retried.
+- Old replies cannot confirm a new check. Replacing an active code requires confirmation.
+- Chat gaps invalidate checks; moderator deletions withdraw contributions.
+- Restart recovers history without replaying changes.
+- The public OBS card contains instructions and a code, never the answer word.
+
+**OBS 33 compatibility:** old Monitor Only behavior changed. SignalStrip disables that legacy repair on 33+, retaining unmute, readback, and fresh-check interaction. Installed-version evidence covers OBS 33.0.0 / WebSocket 5.7.6; earlier-version monitoring repair remains unverified.
+
+## What has actually been verified
+
+| Check | Result |
+|---|---|
+| Automated behavior and boundary tests | 34 passed; rerun during the 28 October submission audit |
+| TypeScript and production compilation | Passed during that audit |
+| Actual offline-channel Twitch report → actual OBS unmute/readback | Verified 26 October |
+| Final source app connected to Twitch and OBS | Verified 26 October |
+| Independent listener / delivered broadcast audio | Not verified |
+| Final standalone EXE on the development PC | Blocked by Application Control |
+
+The [verification record](docs/VERIFICATION.md) distinguishes actual integrations from fixtures. [Limitations](docs/LIMITATIONS.md) include concurrent OBS control, copyable replies, and untested audience scale. No measured advantage over manual controls or adoption claim is made.
+
+## Built with Codex
+
+Codex helped implement the Electron/TypeScript app, React interface, incident reducer, OAuth/EventSub lifecycle, OBS adapter, protected storage, tests, and packaging. Actual development exposed changed OBS 33 monitoring behavior and a late-event readback race. The resulting guards and regression tests are in [electron/obs.ts](electron/obs.ts) and [tests/obs.test.ts](tests/obs.test.ts).
+
+```text
+Twitch EventSub ──→ incident reducer ──→ private creator UI
+                         ↑                       │ reviewed approval
+Selected mic ←── OBS adapter ←───────────────────┘
+                         └──→ sanitized public soundcheck card
+```
 
 ```powershell
-npm run test:ui     # isolated Electron rehearsal; no accounts required
-npm run package     # Windows x64 portable ZIP in release/
+npm run check      # behavior tests + typecheck + production build
+npm run test:ui    # isolated Electron rehearsal
+npm run package    # Windows ZIP; subject to host application policy
 ```
 
-## First run
+## Review the project
 
-1. Try **Local rehearsal**. Click **Viewer reports audio**, **Review unmute**, **Unmute selected mic**, then **Ask for a soundcheck**. Fixtures never change real OBS or post to Twitch.
-2. Return to **Live connections**. Under **Connections**, connect Twitch with a Public Client ID and approve the device code as the broadcaster. Only `user:read:chat` is requested.
-3. Connect OBS's authenticated WebSocket server. Restrict incoming access to this PC; a loopback client address does not restrict OBS's own listener.
-4. Select your microphone capture source. Renamed/deleted sources require reselection.
-5. Add the public card URL as an OBS **Browser Source**, **1280 × 240**. Keep the private creator window outside the broadcast capture.
-
-Detailed instructions: [SETUP.md](docs/SETUP.md).
-
-## Recovery loop
-
-| Step | Behavior |
+| Start here | Details |
 |---|---|
-| Report | Viewer sends exactly `!signal audio`. Chat cannot write to OBS. |
-| Inspect | Read selected mic mute state, tracks, and supported monitoring state. |
-| Review | Review source and before/after values. Re-read before an explicit Set, then read back. |
-| Check | Say the private word through the actual microphone. Viewers reply `!heard CODE word`. The public card never reveals the word. |
-| Close | Choose current word returned, local correction only, unresolved, or dismissed. |
+| [Judge guide](docs/JUDGE_GUIDE.md) | Short review path and expected outcomes |
+| [Setup](docs/SETUP.md) | Twitch, OBS, public card, storage, removal |
+| [Architecture](docs/ARCHITECTURE.md) | Effect boundaries and state recovery |
+| [Verification](docs/VERIFICATION.md) | Performed checks and negative results |
+| [Third-party inventory](docs/THIRD_PARTY.md) | Dependencies, licenses, original artwork |
 
-**OBS 33:** its old Monitor Only output behavior was removed. SignalStrip disables that legacy repair on 33+, retaining the unmute → readback → fresh-check workflow. Compatible earlier versions can restore the creator's intended output-capable monitor mode. The installed version actually tested is OBS **33.0.0 / WebSocket 5.7.6**; older monitoring repair is not a claimed installed-version test.
+Windows-backed safeStorage protects credentials. Private words and audio are not recorded. Closed history defaults to seven-day retention; an open incident remains until closed or cleared. Private local data and generated builds are excluded from Git.
 
-Local state does not prove delivered audio. Current-word replies describe responding accounts, are public/copyable, and cannot establish every viewer's experience. Reports during a check remain visible. A chat gap invalidates the check. An unknown setter result requires inspection; it is never blindly repeated. Restart restores history without replaying effects.
-
-## Privacy and handoff
-
-Windows-backed Electron safeStorage protects saved credentials. Arbitrary chat text, audio recordings, private words, stream keys, and whole OBS configurations are not persisted. Local moderation references are keyed pseudonyms; exports omit account IDs and source names. Closed history and journal entries default to seven-day retention; an open incident remains until closed or cleared. History and credentials have separate deletion controls.
-
-- [Architecture and contracts](docs/ARCHITECTURE.md)
-- [Verification evidence](docs/VERIFICATION.md) and [known limits](docs/LIMITATIONS.md)
-- [Recording guide](docs/RECORDING_GUIDE.md) and [submission draft](docs/SUBMISSION_DRAFT.md)
-- [Fair baseline protocol](docs/BASELINE_PROTOCOL.md)
-- [Third-party inventory](docs/THIRD_PARTY.md)
-
-Built with Codex. MIT licensed. No automatic stream/recording, worldwide novelty claim, fabricated user validation, or promised competition result. Publication and final submission remain owner actions.
+MIT licensed. Created for the Codex x TwitchCon Hackathon. Demo-video and hosted-release links will be added when those assets have been published and verified.
